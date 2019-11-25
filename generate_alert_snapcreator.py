@@ -149,42 +149,44 @@ def generate_alert(sid,log_files_with_error):
 
 ## main
 
-notification_file="/tmp/notification"
+if ( __name__ == "__main__"):
 
-# update log_dir_list with all directories with snapcreator log files
-log_dir_list = [ "/usr/local/scServer/engine/logs/VPS_snap_local/", "/usr/local/scServer/engine/logs/VPS_remote_snapmirror/", "/usr/local/scServer/engine/logs/VBR_snap_local", "/usr/local/scServer/engine/logs/VBR_remote_snapmirror/" ]
-
-
-log_files_with_error = []
-log_files_with_error = find_log_files_with_error(log_dir_list)
-# debug
-#print("log files with error:")
-#for i in log_files_with_error:
-#    print(i)
-# end debug
-sid_list = []
-for i in log_files_with_error:
-    sid = get_sid_name_from_log_file(i)
-    sid_list.append(sid)
-
-# remove duplicates from sid list
-t1 = list(set(sid_list))
-sid_list = t1
-# print all SIDs with error
-print(sid_list)
-
-print("looping through sids")
-for sid in sid_list:
-    print("sid:",sid)
-    result = check_entry_in_file(sid,notification_file)
-    print("result for sid",sid, "is", result)
-    if (result == "True"):
-        print("entry for",sid,"present.")
-    elif (result == "False"):
-        print("entry for",sid,"NOT present.")
-        generate_alert(sid,log_files_with_error)
-        update_notification_file(sid,notification_file)
-    elif (result == "Expired"):
-        print("entry for",sid,"is expired.")
-        generate_alert(sid,log_files_with_error)
-        update_notification_file(sid,notification_file)
+	notification_file="/tmp/notification"
+	
+	# update log_dir_list with all directories with snapcreator log files
+	log_dir_list = [ "/usr/local/scServer/engine/logs/VPS_snap_local/", "/usr/local/scServer/engine/logs/VPS_remote_snapmirror/", "/usr/local/scServer/engine/logs/VBR_snap_local", "/usr/local/scServer/engine/logs/VBR_remote_snapmirror/" ]
+	
+	
+	log_files_with_error = []
+	log_files_with_error = find_log_files_with_error(log_dir_list)
+	# debug
+	#print("log files with error:")
+	#for i in log_files_with_error:
+	#    print(i)
+	# end debug
+	sid_list = []
+	for i in log_files_with_error:
+	    sid = get_sid_name_from_log_file(i)
+	    sid_list.append(sid)
+	
+	# remove duplicates from sid list
+	t1 = list(set(sid_list))
+	sid_list = t1
+	# print all SIDs with error
+	print(sid_list)
+	
+	print("looping through sids")
+	for sid in sid_list:
+	    print("sid:",sid)
+	    result = check_entry_in_file(sid,notification_file)
+	    print("result for sid",sid, "is", result)
+	    if (result == "True"):
+	        print("entry for",sid,"present.")
+	    elif (result == "False"):
+	        print("entry for",sid,"NOT present.")
+	        generate_alert(sid,log_files_with_error)
+	        update_notification_file(sid,notification_file)
+	    elif (result == "Expired"):
+	        print("entry for",sid,"is expired.")
+	        generate_alert(sid,log_files_with_error)
+	        update_notification_file(sid,notification_file)
