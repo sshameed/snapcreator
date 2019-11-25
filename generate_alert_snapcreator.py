@@ -9,8 +9,6 @@ import smtplib
 
 ##############################################
 def find_log_files_with_error(lista):
-    #print("debug, lista",lista)
-    #print("list of files:")
     print("debug 1")
     print(lista)
     var=[]
@@ -18,21 +16,13 @@ def find_log_files_with_error(lista):
         var = var + glob.glob(i + "???_*out*log")
         print(var)
 
-    #print("debug: filelist")
-    #print(var)
-
-    #for i in var.split():
-    #    print("file:",i)
-
     log_files_with_error = []
     # get current time
     currenttime=time.time()
 
     for filename in var:
-        #        print("debug: filename:",filename)
 # check if file is modified less than threshold (1 hour)
         mtime1=os.stat(filename).st_mtime
-        #if (currenttime-mtime1 > 3600*10000):
         if (currenttime-mtime1 <= 3600):
             pass
         else:
